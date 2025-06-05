@@ -1,0 +1,52 @@
+[project]
+name = "test-poetry-cicd"
+version = "0.1.0"
+description = ""
+authors = [
+    {name = "Arya-Chakraborty", email = "aryastlawrence@gmail.com"}
+]
+readme = "README.md"
+requires-python = ">=3.11"
+dependencies = []
+
+[tool.poetry]
+packages = [{include = "test_poetry_cicd", from = "src"}]
+
+[tool.poetry.group.dev.dependencies]
+flake8 = "^7.2.0"
+pylint = "^3.3.7"
+
+[tool.flake8]
+max-line-length = 88
+exclude = ["build", "dist", "__pycache__", ".venv", "venv", "migrations"]
+ignore = ["E203", "W503"]
+
+[tool.pylint."MESSAGES CONTROL"]
+disable = [
+    "missing-docstring",
+    "invalid-name",
+    "too-few-public-methods",
+    "too-many-arguments",
+    "too-many-instance-attributes"
+]
+
+[tool.pylint.FORMAT]
+max-line-length = 88
+indent-string = "    "
+
+[tool.pylint.DESIGN]
+max-args = 10
+max-locals = 15
+max-branches = 12
+max-statements = 50
+max-parents = 7
+max-attributes = 10
+max-public-methods = 20
+
+[tool.pylint.REPORTS]
+output-format = "text"
+reports = false
+
+[build-system]
+requires = ["poetry-core>=2.0.0,<3.0.0"]
+build-backend = "poetry.core.masonry.api"
