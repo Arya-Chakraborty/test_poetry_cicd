@@ -41,13 +41,14 @@ jobs:
             exit 1
           fi
 
-      - name: Create Pull Request to Main
-        if: success()
+      - name: Create Pull Request
         uses: peter-evans/create-pull-request@v6
         with:
-          token: ${{ secrets.GITHUB_TOKEN }}
-          commit-message: 'ci: auto-create PR from dev to main after passing checks'
-          title: 'Auto PR: Merge dev into main'
-          body: 'This PR was automatically created after successful lint checks.'
+          token: ${{ secrets.PAT }}
+          commit-message: ci: auto-create PR from dev to main after passing checks
+          title: Auto PR: Merge dev into main
+          body: This PR was automatically created after successful lint checks.
           base: main
           branch: dev
+          committer: github-actions[bot] <41898282+github-actions[bot]@users.noreply.github.com>
+          author: Arya-Chakraborty <76962037+Arya-Chakraborty@users.noreply.github.com>
