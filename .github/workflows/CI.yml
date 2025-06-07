@@ -46,7 +46,8 @@ jobs:
           token: ${{ secrets.PAT }}
           commit-message: 
             ci: auto-create PR from dev to main after passing checks
-          title: Auto PR: Merge dev into main
+          title: 
+            Auto PR: Merge dev into main
           body: This PR was automatically created after successful lint checks.
           base: main
           branch: dev
