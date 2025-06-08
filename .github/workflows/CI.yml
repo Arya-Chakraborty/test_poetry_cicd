@@ -14,10 +14,12 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
 
       - name: Set up Python 3.11
-        uses: actions/setup-python@v4
+        uses: actions/setup-python@v5
         with:
           python-version: '3.11'
 
@@ -33,7 +35,7 @@ jobs:
       - name: Run Pylint with Score Check
         id: pylint
         run: |
-          SCORE=$(poetry run pylint src/ | tee pylint.log | tail -n 2 | grep 'Your code has been rated at' | awk '{print $7}' | cut -d'/' -f1)
+          SCORE=$(poetry run pylint src/ | tee pylint.log | tail -n 2 | grep -oP '(?<=Your code has been rated at )[0-9.]+')
           echo "Pylint score: $SCORE"
           echo "score=$SCORE" >> $GITHUB_OUTPUT
           if (( $(echo "$SCORE < 9.0" | bc -l) )); then
