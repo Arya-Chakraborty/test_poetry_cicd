@@ -43,12 +43,20 @@ jobs:
             exit 1
           fi
 
-      - name: Create Pull Request
-        uses: peter-evans/create-pull-request@v6
-        with:
-          token: ${{ secrets.PAT }}
-          commit-message: 'ci: auto-create PR from dev to main after passing checks'
-          title: 'Auto PR: Merge dev into main'
-          body: 'This PR was automatically created after successful lint checks.'
-          base: main
-          branch: dev
+      - name: Create Pull Request if none exists
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          # Check if a PR already exists from dev to main
+          EXISTING_PR=$(gh pr list --base main --head dev --json number -q 'map(.number)')
+
+          if [ -z "$EXISTING_PR" ]; then
+            echo "No existing PR found. Creating a new one."
+            gh pr create \
+              --base main \
+              --head dev \
+              --title "Auto PR: Merge dev into main" \
+              --body "This PR was automatically created by the CI pipeline after successful lint checks on the dev branch."
+          else
+            echo "A pull request from dev to main already exists: #$EXISTING_PR. No new PR will be created."
+          fi
