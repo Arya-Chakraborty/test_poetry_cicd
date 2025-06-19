@@ -18,7 +18,7 @@ app = FastAPI(
 # Check database connection
 session = get_session()
 if not session:
-    print("ERROR: Failed to connect to Cassandra database. \
+    print("ERROR: Failed to connect to PostgreSQL database. \
           Application will exit.")
     # Add a small delay before exiting to allow error messages to be printed
     import time
