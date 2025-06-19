@@ -35,10 +35,10 @@ try:
         raise detailed_error
 except Exception as e:
     print(f"Error connecting to PostgreSQL: {e}")
-    print(f"Connection details: \
-          Host={DB_HOST}, Port={DB_PORT}, DB={DB_NAME}, User={DB_USER}")
-    print("ERROR: Cannot connect to PostgreSQL. \
-          Application requires a database connection.")
+    print(f"Connection details:\
+           Host={DB_HOST}, Port={DB_PORT}, DB={DB_NAME}, User={DB_USER}")
+    print("ERROR: Cannot connect to PostgreSQL.\
+           Application requires a database connection.")
     engine = None
     SessionLocal = None
 

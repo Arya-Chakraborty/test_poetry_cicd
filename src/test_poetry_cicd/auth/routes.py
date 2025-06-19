@@ -6,16 +6,15 @@ from fastapi import APIRouter, HTTPException, Depends, Response, status
 from .models import UserCreate, UserLogin, UserResponse
 from .utils import (create_access_token, set_access_cookies,
                     unset_jwt_cookies, get_current_user, hash_password)
-from . import db_service
+from ..database import get_user_by_email, create_user, delete_user
 
 router = APIRouter(prefix="/auth", tags=["authentication"])
 
 
 @router.post("/create-account", response_model=UserResponse)
 async def create_account(user_data: UserCreate, response: Response):
-    """Create a new user account."""
-    # Check if email already exists
-    existing_user = db_service.get_user_by_email(user_data.email)
+    """Create a new user account."""    # Check if email already exists
+    existing_user = get_user_by_email(user_data.email)
     if existing_user:
         raise HTTPException(status_code=400,
                             detail="Email already registered")
@@ -30,8 +29,8 @@ async def create_account(user_data: UserCreate, response: Response):
         "password": hashed_password,
         "linkedin_url": user_data.linkedin_url,
         "github_url": user_data.github_url
-    }    # Add user to database
-    success = db_service.create_user(new_user)
+        }    # Add user to database
+    success = create_user(new_user)
 
     if not success:
         raise HTTPException(
@@ -57,7 +56,7 @@ async def login(user_data: UserLogin, response: Response):
     """Authenticate a user."""
     hashed_password = hash_password(user_data.password)
     # Try to find user in database
-    user = db_service.get_user_by_email(user_data.email)
+    user = get_user_by_email(user_data.email)
 
     if user and user["password"] == hashed_password:
         # Create access token with JWT
@@ -84,8 +83,9 @@ async def get_current_user_info(current_user: Optional[str] =
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED,
             detail="Not authenticated",
-            headers={"WWW-Authenticate": "Bearer"})    # Find user in database
-    db_user = db_service.get_user_by_email(current_user)
+            headers={"WWW-Authenticate": "Bearer"})
+    # Find user in database
+    db_user = get_user_by_email(current_user)
     if db_user:
         return {
             "name": db_user["name"],
@@ -106,8 +106,9 @@ async def delete_account(response: Response, current_user: Optional[str] =
             status_code=status.HTTP_401_UNAUTHORIZED,
             detail="Not authenticated",
             headers={"WWW-Authenticate": "Bearer"}
-        )    # Delete from database
-    db_success = db_service.delete_user(current_user)
+        )
+    # Delete from database
+    db_success = delete_user(current_user)
 
     if db_success:
         unset_jwt_cookies(response)  # Log the user out

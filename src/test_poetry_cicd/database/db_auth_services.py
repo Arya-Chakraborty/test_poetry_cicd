@@ -3,7 +3,7 @@ Database services for authentication.
 """
 from typing import Optional, Dict, List, Any
 from sqlalchemy import text
-from ..config import get_session
+from ..config.db_config import get_session
 
 
 def get_user_by_email(email: str) -> Optional[Dict[str, Any]]:

@@ -10,17 +10,7 @@ from .cookie_config import (
     URL_PATTERN
 )
 
-try:
-    from .db_config import get_session, create_tables
-except ImportError:
-    # The cassandra-driver might not be installed yet
-    def get_session():
-        """Fallback function when cassandra is not available."""
-        return None
-
-    def create_tables():
-        """Fallback function when cassandra is not available."""
-        pass
+from .db_config import get_session, create_tables, engine, metadata
 
 __all__ = [
     "SECRET_KEY",
@@ -30,5 +20,7 @@ __all__ = [
     "EMAIL_PATTERN",
     "URL_PATTERN",
     "get_session",
-    "create_tables"
+    "create_tables",
+    "engine",
+    "metadata"
 ]
