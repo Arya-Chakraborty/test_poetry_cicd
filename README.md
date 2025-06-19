@@ -1,30 +1,30 @@
 # AptWise Backend API
 
-This project is a FastAPI backend for the AptWise application with authentication and Cassandra DB integration.
+This project is a FastAPI backend for the AptWise application with authentication and PostgreSQL DB integration.
 
 ## Features
 
 - FastAPI for high-performance REST API
 - JWT-based authentication with cookie storage
 - User registration, login, and account management
-- Apache Cassandra integration for persistent data storage
+- PostgreSQL integration for persistent data storage
 
 ## Prerequisites
 
 - Python 3.11 or higher
 - Poetry for dependency management
-- Apache Cassandra (local installation or Docker)
+- PostgreSQL (local installation or Docker)
 
-## Getting Started with Cassandra
+## Getting Started with PostgreSQL
 
 ### Option 1: Using Docker
 
 ```bash
-# Pull the Cassandra image
-docker pull cassandra:latest
+# Pull the PostgreSQL image
+docker pull postgres:latest
 
-# Run the Cassandra container
-docker run --name aptwisedb-cassandra -p 9042:9042 -d cassandra:latest
+# Run the PostgreSQL container
+docker run --name aptwisedb-postgres -e POSTGRES_USER=aptwise -e POSTGRES_PASSWORD=aptwise -e POSTGRES_DB=aptwisedb -p 5432:5432 -d postgres:latest
 
 # Check the container status
 docker ps
@@ -32,18 +32,18 @@ docker ps
 
 ### Option 2: Local Installation
 
-Follow the installation guide for your operating system from the [Apache Cassandra website](https://cassandra.apache.org/_/download.html).
+Follow the installation guide for your operating system from the [PostgreSQL website](https://www.postgresql.org/download/).
 
 ## Environment Variables
 
 Set the following environment variables or configure them in your deployment:
 
 - `SECRET_KEY`: JWT secret key
-- `CASSANDRA_HOST`: Cassandra host (default: 127.0.0.1)
-- `CASSANDRA_PORT`: Cassandra port (default: 9042)
-- `CASSANDRA_KEYSPACE`: Cassandra keyspace name (default: aptwisedb)
-- `CASSANDRA_USERNAME`: Cassandra username (default: cassandra)
-- `CASSANDRA_PASSWORD`: Cassandra password (default: cassandra)
+- `DB_HOST`: PostgreSQL host (default: 127.0.0.1)
+- `DB_PORT`: PostgreSQL port (default: 5432)
+- `DB_NAME`: PostgreSQL database name (default: aptwisedb)
+- `DB_USER`: PostgreSQL username (default: aptwise)
+- `DB_PASSWORD`: PostgreSQL password (default: aptwise)
 
 ## Installation and Setup
 
