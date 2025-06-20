@@ -1,4 +1,4 @@
-# AptWise Backend API
+# AptWise Backend API (Test Repository)
 
 This project is a FastAPI backend for the AptWise application with authentication and PostgreSQL DB integration.
 
